@@ -1,0 +1,106 @@
+<%= form_for @goal, url: { action: :ajax_create_goal }, html: { multipart: true, id: 'MainGoal' }, remote: true do |g| %>
+  <div class="filters_block editing">
+    <div class="filters_top clearfix">
+      <label class="label_styled minus_btn_width"> 
+        <span class="label_text"><%= t('goal_name') %> </span>
+        <span class="required_field_holder">
+        <%= g.text_field(:name, class: "form-control open_filters_field", placeholder: t('name')) %>
+        </span>
+      </label>
+      <%= g.submit('New goal', class:'btn btn_primary btn_mt pull-right') %>
+    </div>
+    <div class="filters_bot">
+      <div class="inner clearfix">
+        <div class="left_b">
+          <label class="label_styled"> 
+            <span class="label_text"><%= t('description') %> </span>
+            <span class="required_field_holder">
+              <%= g.text_area(:description, class: "form-control description_field", placeholder: t('description')) %>
+            </span>
+          </label>
+        </div>
+        <div class="middle_b">
+          <div class="clearfix upload_img_holder">
+            <div class="upload_block pull-left">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('image_upload') %></span>
+                <div class="rounded_block">
+                  <div class="cleaning_field">
+                    <input class="form-control" placeholder="Select image">
+                    <div class="image_checkbox">
+                      <label class="checkbox_label">
+                        <span class="image_checkbox_text">Delete image?</span>
+                        <%= g.check_box(:delete_image)%>
+                        <span class="checkbox_icon_b">
+                            <i class="icon icon_checked"></i>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="btn-group clearfix" role="group" aria-label="...">
+                    <a class="btn btn_control btn_file">
+                      <%= g.file_field(:image, class: 'btn btn_control btn_file') %>
+                      <%= t('select') %>
+                    </a>
+                  </div>
+                </div>
+              </label>
+            </div>
+            <div class="upload_img pull-right">
+            </div>
+          </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <label class="label_styled"> 
+                  <span class="label_text"><%= t('status') %></span>
+                  <span class="custom_select">
+                    <%= g.select(:status, AbstractGoal.status(g.object), { include_blank: false }, { class: 'chosen-select'}) %>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+        <div class="right_b grid_padding_sm">
+          <div class="row choose_date">
+            <div class="col-xs-6">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('start_date') %><i class="required_field_holder"></i></span>
+                <%= g.text_field(:start_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+              </label>
+            </div>
+            <div class="col-xs-6">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('end_date') %><i class="required_field_holder"></i></span>
+                <%= g.text_field(:end_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+              </label>
+            </div>
+          </div>
+          <% if current_user.admin? || current_user.teams.any? %>
+            <% unless @goal.parent_id || @goal.persisted? %>
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('create_as_a_goal_for') %></span>
+                    <span class="custom_select">
+                      <%= g.select(:team_id, @users_teams.collect{|x| [x.name,x.id]}, { include_blank: true }, class: 'chosen-select') %>
+                    </span>
+                  </label>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="multiple_with_label">
+          <label class="label_styled"> 
+            <span class="label_text"><%= t('categories') %></span>
+            <div class="custom_tags_input padd_left">
+            <span class="tags_input_placeholder">Add categories:</span>
+              <%= g.select(:category_ids, Category.all.collect {|x| [x.name, x.id]}, {}, tabindex: 8, multiple: true, size: 3, class: 'chosen-select') %>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+

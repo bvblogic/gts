@@ -1,0 +1,83 @@
+<%= form_for @goal, url: :create_template_goals do |g| %>
+  <div class="content">
+    <div class="container">
+      <div class="quick_template_adding">
+        <div class="title">
+          <%= t('quick_template') %>
+        </div>
+        <div class="filters_block editing">
+          <div class="filters_top clearfix">
+            <div class="minus_btn_width grid_padding_sm"> 
+              <div class="row">
+                <div class="col-xs-12">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('template_name') %> </span>
+                    <%= g.text_field(:name, class: "form-control", placeholder: t('name')) %>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <%= g.submit('add template', class:'btn btn_primary btn_mt pull-right') %>
+          </div>
+          <div class="filters_bot_show">
+            <div class="inner clearfix">
+              <div class="left_b">
+              <label class="label_styled"> 
+                  <span class="label_text"><%= t('description') %> </span>
+                  <span class="">
+                    <%= g.text_area(:description, class: "form-control description_field", placeholder: t('description')) %>
+                  </span>
+                </label>
+              </div>
+              <div class="middle_b">
+                <div class="clearfix upload_img_holder">
+                  <div class="upload_block pull-left">
+                    <label class="label_styled"> 
+                      <span class="label_text"><%= t('image_upload') %></span>
+                      <div class="rounded_block">
+                      <div class="cleaning_field">
+                        <input class="form-control" placeholder="<%= t('select_image') %>" >
+                        <div class="image_checkbox">
+                          <label class="checkbox_label">
+                            <span class="image_checkbox_text">Delete image?</span>
+                            <%= g.check_box(:delete_image)%>
+                            <span class="checkbox_icon_b">
+                                <i class="icon icon_checked"></i>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="btn-group clearfix" role="group" aria-label="...">
+                        <a class="btn btn_control btn_file">
+                          <%= g.file_field(:image, class: 'btn btn_control btn_file') %>
+                          <%= t('select') %>
+                        </a>
+                      </div>
+                    </div>
+                    </label>
+                  </div>
+                  <div class="upload_img pull-right">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="multiple_with_label">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('categories') %></span>
+                <div class="custom_tags_input padd_left">
+                <span class="tags_input_placeholder">Add categories:</span>
+                  <%= g.select(:category_ids, Category.all.collect {|x| [x.name, x.id]}, {}, multiple: true, class: 'chosen-select') %>
+                </div>
+              </label>
+            </div> 
+          </div>
+        </div> 
+      </div>
+    </div>
+    <%= g.hidden_field(:is_template, value: true) %>
+  </div>
+<% end %>
+
+
+
+ 

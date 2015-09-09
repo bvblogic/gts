@@ -1,0 +1,32 @@
+var el = $("#step<%=@parent_id%>");
+
+el.html("<%= j (render partial: 'add_substep', object: @goal, locals: { parent_id: @parent_id }) %>");
+el.show(350);
+
+$(".chosen-select", el).chosen({
+  disable_search: true,
+  width: '100%'
+})
+
+$(".text-center").on('click', "#collapse_<%=@parent_id%>", function(event){
+  event.preventDefault();
+  $("#step<%=@parent_id%>").hide(200);
+})
+
+$("#step_image_<%=@parent_id%>").on('change', function() {
+  if ($("#step_image_<%=@parent_id%>").val() == "") {
+      return;
+  }
+  var fileInputContent = $("#step_image_<%=@parent_id%>").val().split("\\").pop();
+
+  $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+})
+
+if ($('.calendar, .calendar_in_filters').length) {
+  $('.calendar').datepicker({
+    format: 'yyyy-mm-dd'
+  });
+  $('.calendar_in_filters').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+}

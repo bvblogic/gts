@@ -1,0 +1,26 @@
+<% present Team.new do |team_presenter| %>
+  <div class="data_table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th><div class="th_content"></div></th>
+          <% @column_names.each do |header_name| %>
+          <th>
+            <div class="th_content">
+              <%= header_name %>
+              <span class="arrows">
+                <%= team_presenter.sortable header_name, "asc" %>
+                <%= team_presenter.sortable header_name, "desc" %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+          <th><div class="th_content"></div></th>
+        </tr>
+      </thead>
+        <tbody>
+          <%= render partial: 'table' %>
+        </tbody>
+    </table>
+  </div>
+<% end %>

@@ -1,0 +1,25 @@
+var el = $('#new_team');
+
+<% if @team.errors.any? %>
+  //Rendering form with errors
+  $('.quick_team_adding').html("<%= j (render partial: 'team_form', object: [ @team, @users = @users, @form_users = @form_users ]) %>");
+  //Including scripts
+  $(".chosen-select").chosen({
+    disable_search: true,
+    width: '100%'
+  });
+  
+<% else %>
+  // Refresh form
+  $('.quick_team_adding').html("<%= j (render partial: 'team_form', object: [ @team = Team.new, @users = @users, @form_users = @form_users ]) %>");
+
+  // Refresh table
+  $('.data_table tbody').html("<%= j (render partial: 'table', object: @scoped_collection) %>");
+
+  $(".chosen-select").chosen({
+    disable_search: true,
+    width: '100%'
+  });
+
+<% end %>
+

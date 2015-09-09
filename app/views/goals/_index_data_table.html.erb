@@ -1,0 +1,31 @@
+<% present Goal.new do |goal_presenter| %>
+  <div class="data_table">
+    <table class="table" id='index_table'>
+      <thead>
+        <tr>
+          <th ><div class="th_content"></div></th>
+          <% @table_headers.each do |header_name| %>
+          <th>
+            <div class="th_content">
+              <%= header_name %>
+              <span class="arrows">
+                <%= goal_presenter.sortable header_name, "asc" %>
+                <%= goal_presenter.sortable header_name, "desc" %>
+              </span>
+            </div>
+          </th>
+          <% end %>
+          <th><div class="th_content"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'table', object: @scoped_collection, locals: {with_children: false} %>
+      </tbody>
+    </table>
+    <% if @scoped_collection.empty? %>
+      <div class="not_found">
+        <%= t('no_goals_found') %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

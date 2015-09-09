@@ -1,0 +1,30 @@
+<div class="quick_team_adding">
+  <div class="title">
+    <%= t('quick_team_adding') %>
+  </div>
+  <%= form_for @team, url: { action: :create }, remote: true do |t| %>
+  <div id="team_error_message"></div>
+    <div class="filters_block">
+      <div class="clearfix">
+        <div class="minus_btn_width grid_padding_md"> 
+          <div class="row">
+            <div class="col-xs-4"><%= t.text_field(:name, class:'form-control', placeholder: t('team_name')) %></div>
+            <div class="col-xs-4">
+              <span class="custom_select">
+                <%= t.select(:manager_id, options_for_select(@users.collect{|x| [x.name,x.id]}), { include_blank: true, prompt: 'Manager' }, class: 'chosen-select') %>
+              </span>
+            </div>
+            <div class="col-xs-4">
+              <div class="custom_tags_input">
+                <span class="tags_input_placeholder"><%= t('user').pluralize %>:</span>
+                  <%= t.select(:user_ids, @form_users.collect {|x| [x.name, x.id]}, {}, multiple: true, class: 'chosen-select' ) %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= t.submit(I18n.t('create_team'), class:'btn btn_primary pull-right') %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,36 @@
+<%= form_for @goal, url: { action: :update }, html: { multipart: true } do |goal| %>
+  <div class="content">
+    <div class="container">
+      <div class="goal_editing">
+        <div class="title">
+         <%= t('goal_editing') %>
+        </div>
+        <div class="filters_block editing">
+          <%= render partial: 'edit_form', object: @goal, locals: { g: goal } %>
+        </div>
+      </div>
+      <div class="steps_substeps editind">
+        <div class="title clearfix">
+          <%= t('steps_and_subs_editing') %>
+        </div>
+        <% @goal.sub_goals.each do |step| %>
+          <div class="filters_block editing">
+          <%= goal.fields_for :sub_goals, step do |g| %>
+            <%= render partial: 'edit_form', object: @goal = step, locals: { g: g } %>
+          </div>
+          <% step.sub_sub_goals.each do |substep| %>
+            <div class="filters_block editing substep">
+              <%= g.fields_for :sub_sub_goals, substep do |gg| %>
+                <%= render partial: 'edit_form', object: @goal = substep, locals: { g: gg } %>
+            </div>
+              <% end %>
+          <% end %>
+          <% end %>
+        <% end %>
+        <div class="bottom_btns">
+         <%= goal.submit('Update', class:'btn btn_primary btn_same_width') %> 
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

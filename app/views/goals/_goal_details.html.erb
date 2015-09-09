@@ -1,0 +1,66 @@
+<% present Goal.new do |goal_presenter| %>
+  <% if @goal.class.name == 'SubSubGoal' %>
+    <div class="box substep">
+  <% else %>
+    <div class="box">
+  <% end %>
+    <div class="row">
+      <div class="col-xs-8 no_padding_right">
+        <dl class="dl-horizontal dl-horizontal_styled">
+          <dt><%= t('goal_name') %></dt>
+          <dd><strong><%= @goal.name %> 
+            <%= goal_presenter.span_field(@goal) %>
+            </strong></dd>
+          <dt><%= t('description') %></dt>
+          <dd><%= @goal.description %></dd>
+          <dt><%= t('start_date') %></dt>
+          <dd><strong><%= @goal.start_date %></strong></dd>
+          <dt><%= t('end_date') %></dt>
+          <dd><strong><%= @goal.end_date %></strong></dd>
+          <dt><%= t('status') %></dt>
+          <dd><strong><% if @goal.status %>
+            <%= goal_presenter.status(@goal) %>
+          <% end %>
+          </strong></dd>
+          <dt><%= t('category').pluralize(@goal.categories.pluck(:name).count) unless @goal.parent_id || @goal.class.name == 'SubGoal' || @goal.class.name == 'SubSubGoal' %></dt>
+          <dd><strong><%= @goal.categories.pluck(:name).join(', ') unless @goal.parent_id || @goal.class.name == 'SubGoal' || @goal.class.name == 'SubSubGoal' %></strong></dd>
+        </dl>
+      </div>
+      <div class="col-xs-4 goal_details_control">
+        <div class="clearfix">
+          <%= link_to t('edit_goal'), edit_goal_path(@goal), class:'btn btn_default pull-left' if can? :update, find_parent(@goal) %>
+          <%= link_to t('delete_goal'), goal_path(@goal), method: :delete, class:'btn btn_default pull-right', confirm: "Are you sure?" if can? :destroy, find_parent(@goal) %>
+        </div>
+        <div class="goal_details_img">
+          <div class="goal_details_img_head">
+            <%= t('image') %>
+          </div>
+          <div class="clearfix">
+            <div class="<%= @goal.image? ? "upload_img pull-left has_img" : "upload_img pull-left" %>"> 
+              <%= image_tag(@goal.image.url) %>
+            </div>
+            <div class="goal_details_img_name">
+              <%= @goal.image.file.filename if @goal.image.present? %>
+            </div>
+          </div>
+        </div>
+        <% unless @goal.class.name == 'SubSubGoal' || find_parent(@goal).is_template %>
+          <div class="goal_details_progress">
+            <div class="progress_head"><%= t('progress') %></div>
+            <div class="progress progress_default">
+              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style=<%="width:#{progress?(@goal)}px"%>>
+                <span class="progress_value">
+                  <% if @goal.parent_id && @goal.class.name == 'SubGoal' %>
+                    <%= "#{@goal.sub_sub_goals.where(status: "2").count}/#{@goal.sub_sub_goals.count}" %>
+                  <% else %>
+                    <%= "#{@goal.sub_goals.where(status: "2").count}/#{@goal.sub_goals.count}" %>
+                  <% end %>
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

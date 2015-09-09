@@ -1,0 +1,104 @@
+== README
+
+* About
+
+  Goal Tracking System - is an application build for tracking personal goals and dreams licensed under the GPLv3 license. Designed for corporate use.
+  Users can create their goals, add steps to them, change goals statuses, set deadlines and other things. Admin can track all of 
+  the created goals and be aware of what his people want and need. This app's main purpose is to help team leads, heads of the office, HR's
+  or whoever in your company is responsible for working with personnel, make employees life in company more comfortable and satisfying.
+
+* Details
+
+  - Users and their roles
+
+    There are 3 types of users in the app:
+    * User - it's just a simple user(one of your employee, for example), who can create goals and cannot see others goals.
+    * Manager - it's a user, who have at least one team. He can not only create his own goals, but also goals for his team. 
+      Also, he can see his team's members goals, can create templates and manage his team(or teams).
+    * Admin - can see all goals on the project, can manage all teams, categories and also can create templates.
+
+  - Goals
+
+    Every user can create a goal. Then he can add steps to this goal. Each step can have it's own steps(substeps). 
+    Number of steps and substeps is unlimited. You can set status for the goal(open, in progress, done), pick a start date,
+    and an end date, choose, which category this goal belongs to and attach an image(visualization of a goal) to it. 
+
+  - Templates
+
+    Basically, it's the same goal, but visible to everyone, so any user can copy it and use as his own goal. Only managers and admins 
+    are able to create templates.
+
+  - Teams
+
+    Admin can create team, assign users to it, choose manager and name for it. The main point of team is that it have its own, team goals.
+    Manager is responsible for team goals.
+
+* Configuration
+    Ruby 2.2.0p0
+    Rails 4.2.3
+    DB - MySql
+    Testing tool - RSPEC
+
+* Deployment instructions
+  1. Clone project from our repository
+  2. Create a different RVM for this project that will contain proper ruby and rails versions and all of the neccesary gems
+  3. Install Ruby
+  4. Install Rails
+  5. Run bundle install
+  6. Create database
+  7. Run migrations
+
+* How to run the test suite
+
+  In the project run 
+    $ rspec spec 
+  from command line
+
+* Mailer
+
+  App has built in functionality for sending emails about goal creation, updates to user and his team lead.
+  In case you want this functionality to work, you need to configure it in "config/environments"
+  example code for this: 
+    config.action_mailer.delivery_method = :sendmail
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = true
+    config.action_mailer.default_url_options = { host: 'yourhost.net'}
+    config.action_mailer.default_options = { from: 'noreply@yourhost.net' }
+
+* Authentication types
+
+  Currently the app provides two types of authentication - basic auth and LDAP auth.
+  If you want to use basic auth, in command line run
+    $ rake auth_type:basic
+  If you want to use LDAP auth, in command line run
+    $ rake auth_type:ldap
+  In case with ldap, you want to configure your ldap connection inside the "config/ldap.yml" file. 
+  example code for this:
+    host: ldap.yourhost.com
+    port: 389
+    attribute: uid
+    base: ou=Employees,dc=yourhost,dc=com
+    admin_user: cn=proxy,dc=yourhost,dc=com
+    admin_password: your_secret_admin_password
+    ssl: false
+
+  IMPORTANT: Currently the app is designed to support remote users database and not have its own signing up mechanism, but you can easily build one, since
+  this app is using Devise gem for authentication purpose. For further information read https://github.com/plataformatec/devise.
+
+* Users role setup
+
+  By default every user will get role "user"
+  if you want to make some user admin
+  run
+    $ rake role:admin user_name
+  in the command line
+  to make him back to user
+  run
+    $ rake role:user admin_name
+
+  Notice: To make a user manager just assign any of the existing team to him.
+
+* Project features
+
+  Current version of the project, due to the peculiarities of development, is a big extension of an active admin gem.
+  So, for now, all of the controllers logic is located in the Admin directory.

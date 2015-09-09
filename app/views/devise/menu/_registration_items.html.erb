@@ -1,0 +1,7 @@
+<% if user_signed_in? %>
+<ul class="nav navbar-nav navbar-right">
+  <li>
+  <%= link_to('Edit', edit_user_registration_path, class: "glyphicon glyphicon-edit navbar-right") %>
+  </li>
+</ul>
+<% end %>

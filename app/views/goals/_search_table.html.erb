@@ -1,0 +1,52 @@
+<div class="clearfix search_table">
+  <div class="minus_btn_width_sm">
+    <table class="table">
+      <thead>
+        <tr>
+          <th><%= t('name') %></th>
+          <% if current_user.admin? || current_user.teams.any? %>
+          <th><%= t('team') %></th>
+          <th><%= t('user') %></th>
+          <% end %>
+          <th><%= t('categories') %></th>
+          <th><%= t('start_date') %></th>
+          <th><%= t('end_date') %></th>
+        </tr>
+      </thead>
+      <%= form_tag(goals_path, method: :get) do %> 
+      <tbody>
+        <tr>
+          <td class="search_goal_name">
+            <%= text_field_tag('search[name]', nil, class:'form-control', placeholder:"Search goal, write goal name") %>
+          </td>
+          <% if current_user.admin? || current_user.teams.any? %>
+            <td class="search_goal_team">
+              <span class="custom_select">
+                <%= select_tag('search[team_id]', options_for_select(@users_teams.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select') %>
+              </span>
+            </td>
+            <td class="search_goal_user">
+              <span class="custom_select ml_minus_one">
+               <%= select_tag('search[user_id]', options_for_select(@users.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select') %>
+              </span>
+            </td>
+          <% end %>
+          <td class="search_goal_categories">
+            <span class="custom_select ml_minus_two">
+              <%= select_tag('search[category_id]', options_for_select(@categories.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select') %>
+            </span>
+          </td>
+          <td class="search_goal_start_date">
+            <%= text_field_tag('search[start_date]', nil, class:'form-control calendar', placeholder:'yyyy-mm-dd') %>
+          </td>
+          <td class="search_goal_end_date">
+            <%= text_field_tag('search[end_date]', nil, class:'form-control calendar', placeholder:'yyyy-mm-dd') %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <%= hidden_field_tag('search[scope]', params[:scope].present? ? params[:scope] : params[:search].try(:[], :scope)) %>
+  <%= submit_tag 'Filter', class:'btn btn_default btn_sm pull-right' %>
+  <% end %>
+</div>

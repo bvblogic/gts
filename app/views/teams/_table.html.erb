@@ -1,0 +1,37 @@
+<% present Team.new do |team_presenter| %> 
+  <% @scoped_collection.each do |team| %>
+    <tr>
+      <td class="table_checkbox">
+        <label class="checkbox_label">
+          <input type="checkbox" class="check" id=<%= "#{team.id}" %>>
+          <span class="checkbox_icon_b">
+              <i class="icon icon_checked"></i>
+          </span>
+        </label>
+      </td>
+      <td class="team_name">
+        <%= team_presenter.team_name(team) %>
+      </td>
+      <td class="item_fs_c td_users">
+        <%= team.users.pluck(:name).join(', ') %>
+      </td>
+      <td class="item_fs_c">
+        <%= team.manager.name if team.manager.present? %> 
+      </td>
+      <td class="item_fs_c">
+        <%= team.created_at %>
+      </td> 
+      <td class="td_dropdown">
+        <div class="btn-group icon_dropdown md_size">
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon icon_settings"></i> <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><%= team_presenter.view(team) %></li>
+            <li><%= team_presenter.delete(team) %></li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+<% end %>

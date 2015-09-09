@@ -1,0 +1,53 @@
+var el = $("#step<%=@goal.parent_id%>");
+
+<% if @goal.errors.any? %>
+  el.html("<%= j (render partial: 'add_substep', object: @goal, locals: { parent_id: @goal.parent_id }) %>");
+  el.show(350);
+
+  $(".chosen-select", el).chosen({
+    disable_search: true,
+    width: '100%'
+  })
+
+  $(".text-center").on('click', "#collapse_<%=@goal.parent_id%>", function(event){
+    event.preventDefault();
+    $("#step<%=@goal.parent_id%>").hide(200);
+  })
+
+  $("#step_image_<%=@goal.parent_id%>").on('change', function() {
+    if ($("#step_image_<%=@goal.parent_id%>").val() == "") {
+        return;
+    }
+    var fileInputContent = $("#step_image_<%=@goal.parent_id%>").val().split("\\").pop();
+
+    $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+  })
+
+  if ($('.calendar, .calendar_in_filters').length) {
+    $('.calendar').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $('.calendar_in_filters').datepicker({
+      format: 'yyyy-mm-dd',
+    });
+  }
+
+<% else %>
+
+  el.slideUp('slow');
+  // Clear form
+  el.find('input:text,textarea').val('');
+  el.find('.errors').empty();
+
+  $('#index_table tbody').html("<%= j (render partial: 'table', object: @scoped_collection = scoped_collection, locals: {with_children: with_children}) %>");
+
+  $('.table_image', $("#index_table tbody")).hover(function () {
+    var link = $(this);
+    var src = link.attr("data-src");
+    link.data('linkText', link.html());
+    link.append('<span class="img_holder"><span class="inner"><img src=\"'+src+'\" alt=""></span></span>');
+  }, function () {
+    $('.img_holder', $(this)).remove();
+  });
+
+<% end %>

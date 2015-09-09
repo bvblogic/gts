@@ -1,0 +1,80 @@
+<% present @category do |category_presenter| %>
+  <div class="content">
+    <div class="container">
+      <div class="quick_category_adding">
+        <div class="title">
+          <%= t('quick_category_adding') %>
+        </div>
+          <%= form_for @category do |c|%>
+            <div class="filters_block">
+              <div class="clearfix">
+                <div class=" minus_btn_width_md">
+                  <%= c.text_field :name, class:'form-control', placeholder: t('category_name') %>
+                </div>
+                <%= c.submit('create category', class:'btn btn_primary btn_md pull-right')%>
+              </div>
+            </div>
+          <% end %>
+      </div>
+      <div class="categories">
+        <div class="title">
+          <%= t('category').pluralize %>
+        </div>
+        <div class="data_table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th><div class="th_content"></div></th>
+                <% @headers.each do |header_name| %>
+                  <th>
+                    <div class="th_content">
+                      <%= header_name %>
+                      <span class="arrows">
+                        <%= category_presenter.sortable header_name, "asc" %>
+                        <%= category_presenter.sortable header_name, "desc" %>
+                      </span>
+                    </div>
+                  </th>
+                <% end %>
+                <th><div class="th_content"></div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @scoped_collection.each do |category| %>
+                <tr>
+                  <td class="table_checkbox">
+                    <label class="checkbox_label">
+                      <input type="checkbox">
+                      <span class="checkbox_icon_b">
+                          <i class="icon icon_checked"></i>
+                      </span>
+                    </label>
+                  </td>
+                  <td><%= category.id %></td>
+                  <td class="goal_name">
+                    <%= category_presenter.name_as_link(category) %>
+                  </td>
+                  <td class="item_fs_c">
+                    <%= category.created_at %>
+                  </td> 
+                  <td class="td_dropdown">
+                    <div class="btn-group icon_dropdown md_size">
+                      <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="icon icon_settings"></i> <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><%= category_presenter.view(category) %></li>
+                        <li><%= category_presenter.edit(category) %></li>
+                        <li><%= category_presenter.delete(category) %></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,49 @@
+<div class="col-xs-10">
+  <div class="clearfix search_table">
+    <div class="minus_btn_width_sm">
+      <table class="table">
+        <thead>
+          <tr>
+            <th><%= t('user').pluralize %></th>
+            <th><%= t('goals') %></th>
+            <th><%= t('manager') %></th>
+            <th><%= t('name') %></th>
+            <th><%= t('created_at') %></th>
+            <th><%= t('updated_at') %></th>
+          </tr>
+        </thead>
+        <%= form_tag(teams_path, method: :get) do %>
+          <tbody>
+            <tr>
+              <td class="search_goal_name">
+                <%= text_field_tag('search[user_name]', nil, class:'form-control', placeholder: t('search')) %>
+              </td>
+              <td>
+                <span class="custom_select">
+                  <%= select_tag('search[goal_id]', options_for_select(@goals.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select', prompt: t('any')) %>
+                </span>
+              </td>
+              <td>
+                <span class="custom_select ml_minus_one">
+                  <%= select_tag('search[manager_id]', options_for_select(@managers.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select', prompt: t('any')) %>
+                </span>
+              </td>
+              <td>
+                <span class="custom_select ml_minus_two">
+                  <%= select_tag('search[name]', options_for_select(@teams.collect{|x| [x.name,x.id]}), include_blank: true, class: 'chosen-select', prompt: t('any')) %>
+                </span>
+              </td>
+              <td class="search_goal_start_date">
+                <%= text_field_tag('search[created_at]', nil, class:'form-control calendar_in_filters', placeholder:"yyyy-mm-dd") %>
+              </td>
+              <td class="search_goal_end_date">
+                <%= text_field_tag('search[updated_at]', nil, class:'form-control calendar_in_filters', placeholder:"yyyy-mm-dd") %>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+    <%= submit_tag t('filter'), class:'btn btn_default btn_sm pull-right' %>
+    <% end %>
+  </div>
+</div>

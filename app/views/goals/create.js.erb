@@ -1,0 +1,55 @@
+var el = $('#step_form');
+
+
+<% if @goal.errors.any? %>
+  $("#step_form").html("<%= j (render partial: 'add_step_form', object: @goal, locals: { parent_id: @goal.parent_id }) %>");
+  $('#step_form').slideDown(350);
+
+  $(".chosen-select", $("#step_form")).chosen({
+    disable_search: true,
+    width: '100%'
+  })
+
+  $("#collapse_step").click(function(event){
+    event.preventDefault();
+    $('#step_form').slideUp(350);
+  })
+
+  $("#goal_image").on('change', function() {
+    if ($("#goal_image").val() == "") {
+        return;
+    }
+    var fileInputContent = $("#goal_image").val().split("\\").pop();
+
+    $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+  })
+
+  if ($('.calendar, .calendar_in_filters').length) {
+    $('.calendar').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $('.calendar_in_filters').datepicker({
+      format: 'yyyy-mm-dd',
+    });
+  }
+
+<% else %>
+  
+  $('#step_form').slideUp(350);
+  // Clear form
+  el.find('input:text,textarea').val('');
+  el.find('#error_message').empty();
+  $( ".not_found" ).remove();
+
+  $('.table tbody').html("<%= j (render partial: 'table', object: @scoped_collection, locals: {with_children: true}) %>");
+
+  $('.table_image', $(".table tbody")).hover(function () {
+    var link = $(this);
+    var src = link.attr("data-src");
+    link.data('linkText', link.html());
+    link.append('<span class="img_holder"><span class="inner"><img src=\"'+src+'\" alt=""></span></span>');
+  }, function () {
+    $('.img_holder', $(this)).remove();
+  });
+
+<% end %>

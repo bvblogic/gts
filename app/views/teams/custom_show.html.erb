@@ -1,0 +1,7 @@
+<% present @team do |team_presenter|%>
+  <div class="content">
+    <div class="container">
+      <%= render partial: 'show_form', locals: { from_edit: false }%>
+    </div>
+  </div>
+<% end %>

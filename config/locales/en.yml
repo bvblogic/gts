@@ -1,0 +1,124 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  date:
+    formats:
+      default: "%m/%d/%Y"
+  views:
+    pagination:
+      previous: "&lt;"
+      next: "&gt;"
+  active_admin:
+    powered_by: ''
+  TGS: 'Tracking Goals System'
+  quick_goal: 'Quick goal'
+  successfully_created: 'Template has been successfully created'
+  templates: 'Templates'
+  all: 'All'
+  new_template: 'New template'
+  image_upload: 'Image upload'
+  goal_name: 'Goal name'
+  goal_details: 'Goal details'
+  goal_editing: 'Goal editing'
+  name: 'Name'
+  user: 'User'
+  manager: 'Manager'
+  description: 'Description'
+  select_image: 'Select image'
+  categories: 'Categories'
+  status: 'Status'
+  start_date: 'Start date'
+  end_date: 'End date'
+  team: 'Team'
+  template: 'Template'
+  person: 'Person'
+  create_as_a_goal_for: 'Create as a team goal for'
+  create_from_template: ' Create goal from template '  
+  team_lead_error: 'Team can have only one team lead'
+  goal_created: 'Goal was successfully created'
+  archive: 'My archive'
+  close_goal: ' Close goal '
+  goal_closed: 'Goal has been closed!'
+  last_update: 'Last updated at:'
+  users: 'Users in team'
+  steps: 'Steps'
+  steps_and_subs: 'Steps and substeps'
+  steps_and_subs_editing: 'Steps and substeps editing'
+  progress: 'Progress'
+  successfully_created_from_template: 'Goal has been successfully created from template!'
+  done: 'Done!'
+  create_template: 'Create template'
+  quick_template: 'Quick template adding'
+  template_name: 'Template name'
+  edit_goal: 'Edit goal'
+  edit: 'Edit'
+  delete_goal: 'Delete'
+  view: 'View'
+  copy: 'Copy'
+  add_step: 'Add Step'
+  adding_step: 'Adding step'
+  no_steps: 'No Steps'
+  select: 'Select'
+  progress: 'Progress'
+  add_sub: 'Add Substep'
+  image: 'Image'
+  team_name: 'Team name'
+  create_team: 'Create team'
+  team_goals: 'Team goals'
+  team_archive: 'Team archive'
+  steps_counter: 'Closed steps / Steps'
+  category: 'Category'
+  category_name: 'Category name'
+  pls_select_values: 'You have to select objects in case you want to perform this kind of actions'
+  action_performed: 'Action has been performed on allowed objects'
+  goals: 'Goals'
+  invalid_date: 'Please put right type of date. Should be mm/dd/yyyy!'
+  batch_actions: 'Batch Actions'
+  archive: 'Archive'
+  step_added: 'Step was successfully added'
+  successfully_updated: 'Goal was successfully updated'
+  team_details: 'Management team details'
+  edit_team: 'Edit team'
+  quick_team_adding: 'Quick team adding'
+  created_at: 'Created at'
+  updated_at: 'Updated_at'
+  updated_at: 'Last updated at'
+  delete_team: 'delete team'
+  manager: 'Manager'
+  team_editing: 'Quick team editing'
+  update: 'update'
+  delete: 'Delete'
+  search: 'Search'
+  filter: 'Filter'
+  any: 'Any'
+  team_name: 'Team name'
+  no_such_goal: 'No such goal'
+  no_goals_found: 'No Goals found'
+  quick_category_editing: 'Quick category editing'
+  quick_category_adding: 'Quick category adding'
+  category_name: 'Category name'
+  category_details: 'Management category details'
+  update_category: 'Update category'
+  edit_category: 'Edit category'
+  delete_category: 'Delete category'
+  expand_all: 'Expand all'
+  collapse_all: 'Collapse all'

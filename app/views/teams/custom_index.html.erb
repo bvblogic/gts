@@ -1,0 +1,29 @@
+<div class="content">
+  <div class="container">
+    <%= render partial: 'team_form' if current_user.admin? %>
+    <div class="teams">
+      <div class="title">
+        <%= t('team').pluralize %>
+      </div>
+      <div class="row">
+        <div class="col-xs-2">
+          <div class="btn-group custom_dropdown md_size">
+            <button type="button" class=<%= request.fullpath.include?('expand=true') ? "btn dropdown-toggle disabled" : "btn dropdown-toggle"%> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <%= t('batch_actions') %> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#" class='batch_action' data-action='delete'><%= t('delete_goal') %></a></li>
+              <%= form_tag custom_batch_teams_path, method: :get, id: 'BatchForm' do %>
+              <%= text_field_tag('batch[action_name]', nil, class:'hide') %>
+              <%= text_field_tag('batch[ids]', nil, class:'hide') %>
+              <%= submit_tag nil, class:'hide' %>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+        <%= render partial: 'search_table' %>
+      </div>
+      <%= render partial: 'data_table' %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% if user_signed_in? %>
+<ul class="nav navbar-nav navbar-right">
+  <li>
+  <%= link_to('Logout', destroy_user_session_path, :method => :delete, class: "glyphicon glyphicon-log-out navbar-right")%> 
+  </li>
+</ul>
+<% end %>

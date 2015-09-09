@@ -1,0 +1,101 @@
+<td colspan="12" class="edit_step_substep">
+  <table>
+    <tr>
+      <td>
+        <%= form_for @goal, url: { action: :create_substep }, html: { multipart: true }, remote: true do |g| %>
+          <div id="error_message"></div>
+          <div class="filters_block editing">
+            <div class="filters_top clearfix">
+              <label class="label_styled minus_btn_width"> 
+                <span class="label_text"><%= t('goal_name') %> </span>
+                <span class="required_field_holder">
+                <%= g.text_field(:name, class: "form-control", placeholder: t('name')) %>
+                </span>
+              </label>
+              <%= g.submit('add', class:'btn btn_primary btn_mt pull-right') %> 
+            </div>
+            <div class="filters_bot_show">
+              <div class="inner clearfix">
+                <div class="left_b">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('description') %> </span>
+                    <span class="required_field_holder">
+                      <%= g.text_area(:description, class: "form-control description_field", placeholder: t('description')) %>
+                    </span>
+                  </label>
+                </div>
+                <div class="middle_b">
+                  <div class="clearfix upload_img_holder">
+                    <div class="upload_block pull-left">
+                      <label class="label_styled"> 
+                        <span class="label_text"><%= t('image_upload') %></span>
+                        <div class="rounded_block">
+                          <div class="cleaning_field">
+                            <input class="form-control" placeholder="Select image" >
+                            <div class="image_checkbox">
+                              <label class="checkbox_label">
+                                <span class="image_checkbox_text">Delete image?</span>
+                                <%= g.check_box(:delete_image)%>
+                                <span class="checkbox_icon_b">
+                                    <i class="icon icon_checked"></i>
+                                </span>
+                              </label>
+                            </div>
+                          </div>
+                          <div class="btn-group clearfix" role="group" aria-label="...">
+                            <a class="btn btn_control btn_file">
+                              <%= g.file_field(:image, { class: 'btn btn_control btn_file', id:"step_image_#{parent_id}"}) %>
+                              <%= t('select') %>
+                            </a>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div class="upload_img pull-right">                  
+                    </div>
+                  </div>
+                    <% unless Goal.find_by(id: parent_id).is_template %>
+                      <div class="row">
+                        <div class="col-xs-12">
+                          <label class="label_styled"> 
+                            <span class="label_text"><%= t('status') %> <i class="required_field_holder"></i></span>
+                            <span class="custom_select">
+                              <%= g.select(:status, AbstractGoal.status(g.object), { include_blank: false }, { class: 'chosen-select'}) %>
+                            </span>
+                          </label>
+                        </div>
+                      </div>
+                    <% end %>
+                </div>
+                <div class="right_b grid_padding_sm">
+                  <% unless Goal.find_by(id: parent_id).is_template %>
+                    <div class="row choose_date">
+                      <div class="col-xs-6">
+                        <label class="label_styled"> 
+                          <span class="label_text"><%= t('start_date') %><i class="required_field_holder"></i></span>
+                          <%= g.text_field(:start_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+                        </label>
+                      </div>
+                      <div class="col-xs-6">
+                        <label class="label_styled"> 
+                          <span class="label_text"><%= t('end_date') %><i class="required_field_holder"></i></span>
+                          <%= g.text_field(:end_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+                        </label>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="text-center">
+                <a href="#" class="show_link" id="collapse_<%= parent_id %>">collapse <i class="icon icon_arrow_up"></i></a>
+              </div>
+            </div>
+          </div>
+          <%= g.hidden_field(:is_template, value: true) if Goal.find_by(id: parent_id).is_template %>
+          <%= g.hidden_field(:parent_id, value: parent_id) %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</td>
+

@@ -1,0 +1,16 @@
+<div class="btn-group custom_dropdown md_size">
+  <button type="button" class=<%= request.fullpath.include?('expand=true') ? "btn dropdown-toggle disabled" : "btn dropdown-toggle"%> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <%= t('batch_actions') %> <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a href="#" class='batch_action' data-action='delete'><%= t('delete_goal') %></a></li>
+    <% unless request.fullpath == '/teams' %>
+    <li><a href="#" class='batch_action' data-action='archive'><%= t('archive') %></a></li>
+    <% end %>
+    <%= form_tag custom_batch_goals_path, method: :get, id: 'BatchForm' do %>
+    <%= text_field_tag('batch[action_name]', nil, class:'hide') %>
+    <%= text_field_tag('batch[ids]', nil, class:'hide') %>
+    <%= submit_tag nil, class:'hide' %>
+    <% end %>
+  </ul>
+</div>

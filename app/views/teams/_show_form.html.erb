@@ -1,0 +1,40 @@
+<% present @team do |team_presenter|%>  
+  <div class="title">
+    <%= t('team_details') %>
+  </div>
+  <div class="box">
+    <div class="row">
+      <div class="col-xs-8 no_padding_right">
+        <dl class="dl-horizontal dl-horizontal_styled">
+      <dt><%= t('team_name') %></dt>
+      <dd><strong><%= @team.name %></strong></dd>
+      <dt><%= t('created_at') %></dt>
+      <dd><strong><%= @team.created_at %></strong></dd>
+      <dt><%= t('updated_at') %></dt>
+      <dd><strong><%= @team.updated_at %></strong></dd>
+      <dt><%= t('manager') %></dt>
+      <dd><strong><%= @team.manager.name if @team.manager.present? %></strong></dd>
+      <dt><%= t('users') %></dt>
+      <dd><strong><%= @team.users.pluck(:name).join(', ') %></strong></dd>
+      <dt><%= t('team_goals') %></dt>
+      <dd>
+        <strong>
+          <% @team.goals.each do |team_goal| %>
+            <% next if team_goal.parent_id %>
+            <%= team_presenter.team_goal_link(team_goal) %><br>   
+          <% end %>
+        </strong>
+      </dd>
+    </dl>
+      </div>
+      <div class="col-xs-4 goal_details_control">
+        <div class="clearfix">
+          <% unless from_edit %>
+            <%= link_to t('edit_team'), edit_team_path(@team), class:'btn btn_default pull-left' if can? :update, @team %>
+            <%= link_to t('delete_team'), team_path(@team), method: :delete, class:'btn btn_default pull-right' if can? :destroy, @team %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,44 @@
+<% present Goal.new do |goal_presenter| %>
+  <div class="title clearfix">
+    <%= t('quick_goal') %>
+    <%= goal_presenter.template_button %>
+  </div>  
+  <div class='goal_form'>
+    <%= render partial: 'goal_form' %>
+  </div>
+  <div class="title">
+    <%= t('goals') %>
+  </div> 
+  <div class="row">
+    <div class="col-xs-2">
+      <%= render partial: 'batch_button' %>
+    </div>
+    <div class="col-xs-10">
+      <ul class="tags_list">
+        <li class=<%= 'active' if request.fullpath == "/" || request.fullpath == "/goals" %>><%= link_to goals_path do %>
+          <%= t('goals') %> <span><%= "(#{@all_count})" %></span>
+        <% end %>
+        </li>
+        <li class=<%= 'active' if current_page?(goals_path(scope: :are_closed))%>><%= link_to goals_path(scope: :are_closed) do %>
+          <%= t('archive') %> <span><%= "(#{@archived_count})" %></span>
+        <% end %>
+        </li>
+        <li class=<%= 'active' if current_page?(goals_path(scope: :is_templated_rows))%>><%= link_to goals_path(scope: :is_templated_rows) do %>
+          <%= t('templates') %> <span><%= "(#{@templates_count})" %></span>
+        <% end %>
+        </li>
+        <li class=<%= 'active' if current_page?(goals_path(scope: :team_goals))%>><%= link_to goals_path(scope: :team_goals) do %>
+          <%= t('team_goals') %> <span><%= "(#{@team_goals_count})" %></span>
+        <% end %>
+        </li>
+        <li class=<%= 'active' if current_page?(goals_path(scope: :team_archive))%>><%= link_to goals_path(scope: :team_archive) do %>
+          <%= t('team_archive') %> <span><%= "(#{@team_archive_count})" %></span>
+        <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <%= render partial: 'search_table' %>
+  <%= render partial: 'index_data_table' %>
+  <%= paginate @scoped_collection %>
+<% end %> 

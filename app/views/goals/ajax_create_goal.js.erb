@@ -1,0 +1,76 @@
+var el = $('#MainGoal');
+
+
+<% if @goal.errors.any? %>
+  $('.goal_form').html("<%= j (render partial: 'goal_form', object: [@goal, @users_teams = @users_teams ]) %>");
+  // including jscripts
+  $('.filters_bot').slideDown(350);
+  openFilters();
+  hideFilters();
+  $(".chosen-select").chosen({
+    disable_search: true,
+    width: '100%'
+  });
+  $("#goal_image").on('change', function() {
+    if ($("#goal_image").val() == "") {
+        return;
+    }
+    var fileInputContent = $("#goal_image").val().split("\\").pop();
+
+    $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+  });
+
+  if ($('.calendar, .calendar_in_filters').length) {
+    $('.calendar').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $('.calendar_in_filters').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+  }
+
+<% else %>
+  $('.filters_bot').slideUp(350);
+  //rendering new partial form for a goal form
+  $('.not_found').remove();
+  $('.goal_form').html("<%= j (render partial: 'goal_form', object: [ @goal = Goal.new, @users_teams = @users_teams ]) %>");
+  // including jscripts
+  openFilters();
+  hideFilters();
+  $(".chosen-select").chosen({
+    disable_search: true,
+    width: '100%'
+  });
+ 
+  // refreshing table with goals 
+  $('#index_table tbody').html("<%= j (render partial: 'table', object: @scoped_collection, locals: {with_children: false}) %>");
+
+  //including jscripts for table
+  $('.table_image', $("#index_table tbody")).hover(function () {
+    var link = $(this);
+    var src = link.attr("data-src");
+    link.data('linkText', link.html());
+    link.append('<span class="img_holder"><span class="inner"><img src=\"'+src+'\" alt=""></span></span>');
+  }, function () {
+    $('.img_holder', $(this)).remove();
+  });
+
+  $("#goal_image").on('change', function() {
+    if ($("#goal_image").val() == "") {
+        return;
+    }
+    var fileInputContent = $("#goal_image").val().split("\\").pop();
+
+    $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+  });
+
+  if ($('.calendar, .calendar_in_filters').length) {
+    $('.calendar').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+    $('.calendar_in_filters').datepicker({
+      format: 'yyyy-mm-dd'
+    });
+  }
+
+<% end %>

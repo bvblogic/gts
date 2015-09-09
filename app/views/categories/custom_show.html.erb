@@ -1,0 +1,29 @@
+<div class="content">
+  <div class="container">
+    <div class="title">
+      <%= t('category_details') %>
+    </div>
+    <div class="box">
+      <div class="row">
+        <div class="col-xs-8 no_padding_right">
+          <dl class="dl-horizontal dl-horizontal_styled">
+            <dt>Id</dt>
+            <dd><strong><%= @category.id %></strong></dd>
+            <dt><%= t('name') %></dt>
+            <dd><strong><%= @category.name %></strong></dd>
+            <dt><%= t('created_at') %></dt>
+            <dd><strong><%= @category.created_at %></strong></dd>
+            <dt><%= t('updated_at') %></dt>
+            <dd><strong><%= @category.updated_at %></strong></dd>
+          </dl>
+        </div>
+        <div class="col-xs-4 goal_details_control with_md_btns">
+          <div class="clearfix">
+            <%= link_to I18n.t('edit_category'), edit_category_path(@category), class:'btn btn_default pull-left' %>
+            <%= link_to I18n.t('delete_category'), category_path(@category), method: :delete, class: 'btn btn_default btn_md pull-right' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<% present @team do |team_presenter|%>
+  <%= form_for @team do |t| %>
+    <div class="content">
+      <div class="container">
+        <div class="quick_team_editing">
+          <div class="title">
+            <%= t('team_editing') %>
+          </div>
+          <div class="filters_block">
+            <div class="filters_top clearfix">
+              <div class="minus_btn_width grid_padding_sm"> 
+                <div class="row">
+                  <div class="col-xs-9">
+                    <%= t.text_field(:name, class:'form-control') %>
+                  </div>
+                  <div class="col-xs-3">
+                    <span class="custom_select">
+                      <%= t.collection_select(:manager_id, @users, :id, :name, {}, {class:'chosen-select'}) %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <%= t.submit(t('update'), class:'btn btn_primary pull-right') %>
+            </div>
+            <div class="filters_bot_show">
+              <div class="custom_tags_input">
+                <span class="tags_input_placeholder">Users:</span>
+                <%= t.select :user_ids, options_from_collection_for_select(@no_team_users, :id, :name, { selected: @team.user_ids }), {}, { multiple: true, size: 10, class: 'chosen-select' } %>
+              </div>
+            </div>
+          </div> 
+        </div>
+        <div class="management_team_details">
+          <%= render partial: 'show_form', locals: { from_edit: true } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,66 @@
+
+
+@import "active_admin/mixins";
+@import "active_admin/base";
+@import "active_admin/select2/base";
+
+li{
+  list-style-type: none;
+  margin: 5px;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
+}
+
+.ui-progressbar {
+  height: 2em;
+  text-align: left;
+  overflow: visible;
+  background-color: #ccc;
+}
+.ui-progressbar .ui-progressbar-value {
+  height: 20px;
+  width: 40px;
+  background-color: #33CC33;
+}
+
+.board {
+  width: 100%;
+  height: 20px;
+  border: 1px solid black;
+  background-color: #ccc;
+}
+
+.but {
+  display: block;
+  height: 30px;
+  width: 100px;
+  background: #34696f;
+  border: 2px solid rgba(33, 68, 72, 0.59);
+}
+
+.dispnone {
+  display: none;
+  margin: 15px;
+}
+
+.dispnone > li {
+  margin: 15px 10px 15px 10px
+}
+
+.disp > li {
+  margin: 15px 10px 15px 10px
+}

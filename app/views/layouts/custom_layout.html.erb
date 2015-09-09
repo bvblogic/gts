@@ -1,0 +1,112 @@
+<!DOCTYPE html> 
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]--> 
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]--> 
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]--> 
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+
+  <!-- Meta tags
+  ================================================== -->
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Site title
+  ================================================== -->
+  <title><%= t('TGS') %></title>
+
+  <!-- Fonts
+  ================================================== -->
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700&amp;subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+  <!-- Javascript
+================================================== -->
+  <%=  javascript_include_tag 'application' %>
+
+  <!-- Styles
+  ================================================== -->
+  <%= stylesheet_link_tag 'build.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'bootstrap-datepicker', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'bootstrap-theme.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'bootstrap.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'chosen', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'custom-icon-font', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'easy-autocomplete.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'normalize.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'outdatedBrowser.min', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+
+
+  <!-- Favicons + Touch Icons
+  ================================================== -->
+  <link rel="icon" href="/assets/favicons/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicons/apple-touch-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-touch-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicons/apple-touch-icon-152x152.png">
+
+  <!-- Modernizer + Respond for old browsers
+  ================================================== -->
+  <script src="/assets/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- Header
+    ================================================== -->
+    <header class="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-8">
+            <%= link_to I18n.t('TGS'), root_path, class:'logo' %>
+            <ul class="main_nav">
+              <% if current_user.admin? %>
+                <li class=<%= 'active' if current_page?(:categories)%>><%= link_to t('categories'), categories_path %></li>
+              <% end %>
+              <% if current_user.team || current_user.teams.any? || current_user.admin? %>
+                <li class=<%= 'active' if current_page?(:teams)%>><%= link_to t('team').pluralize, teams_path %></li>
+              <% end %>
+              <li class=<%= 'active' if current_page?(:goals)%>><%= link_to t('goals'), goals_path %></li>
+            </ul>
+          </div>
+          <div class="col-xs-4">
+            <div class="person">
+              <div class="avatars pull-right">
+                <img src="http://www.chocolatevent.ru/sites/default/files/noavatar.png" alt="">
+              </div>
+              <div class="person_details pull-right">
+                <div class="name"><%= current_user.name %></div>
+                <div class="position"><%= current_user.role %></div>
+                <%= link_to destroy_user_session_path, class:'logout' do %>
+                  Logout <i class="icon icon_logout"></i>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="content">
+      <div class="container">
+      <% flash.each do |name, msg| %>
+        <div class="info_msg <%= name %>"><%= msg %><i class="icon icon_close"></i></div>
+      <% end %>
+      <%= yield %>
+      </div>
+    </div>
+  </div><!-- .wrapper -->
+
+<!-- Footer
+================================================== -->
+  <footer class="footer"></footer>
+  <div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+  </div>
+
+
+<!-- End Document
+================================================== -->
+</body>
+</html>

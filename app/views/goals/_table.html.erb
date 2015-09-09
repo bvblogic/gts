@@ -1,0 +1,79 @@
+<% present @goal do |goal_presenter| %>
+  <% @scoped_collection.each do |goal| %>
+    <tr class=<%= goal.is_template? ? "row_template" : nil %>>
+      <% if goal.class.name == 'SubSubGoal' %>
+        <td class="td_arrow"><i class="icon icon_arrow_right"></i></td>
+      <% end %>
+      <td class="table_checkbox" colspan=<%= goal.class.name == 'SubGoal' ? "2" : nil %>>
+        <label class="checkbox_label">
+          <input type="checkbox" class="check" id=<%= "#{goal.id}" %>>
+          <span class="checkbox_icon_b">
+              <i class="icon icon_checked"></i>
+          </span>
+        </label>
+      </td>
+      <td class="goal_name">
+        <%= goal_presenter.span_field(goal) %>
+        <%= goal_presenter.goal_name_link(goal) %>
+      </td>
+      <td class="description_text">
+        <%= goal_presenter.goal_description_link(goal) %>
+      </td>
+      <td>
+        <%= goal.team_name if goal.team %>
+      </td>
+      <td>
+        <%= goal_presenter.status(goal) unless goal.is_template %>
+      </td>
+      <td class="item_fs_c">
+        <% unless goal.is_template %>
+          <%= goal.user.name if goal.user %>
+        <% end %>
+      </td>
+      <td class="item_fs_c">
+        <%= goal.start_date %>
+      </td> 
+      <td class="item_fs_c">
+        <%= goal.end_date %>
+      </td>
+      <td>
+        <span class="table_image" data-src=<%="#{goal.image.url}"%>>
+          <i class="icon icon_image"></i>
+        </span>
+      </td>
+        <td>
+        <% unless goal.class.name == 'SubSubGoal' || find_parent(@goal).is_template || find_parent(goal).is_template %> 
+          <div class="progress progress_default">
+              <div class="progress-bar" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style=<%="width:#{progress?(goal)}px"%>>
+                <span class="progress_value">
+                  <% if goal.parent_id %>
+                    <%= "#{goal.sub_sub_goals.where(status: "2").count}/#{goal.sub_sub_goals.count}" %>
+                  <% else %>
+                    <%= "#{goal.sub_goals.where(status: "2").count}/#{goal.sub_goals.count}" %>
+                  <% end %>
+                </span>
+              </div>
+          </div>
+          <% end %>
+        </td>
+      <td class="td_dropdown">
+        <div class="btn-group icon_dropdown md_size">
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon icon_settings"></i> <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><%= goal_presenter.view(goal) %></li>
+            <li><%= goal_presenter.edit(goal) %></li>
+            <li><%= goal_presenter.copy(goal) %></li>
+            <li><%= goal_presenter.delete(goal) %></li>
+            <li><%= goal_presenter.archive(goal) %></li>
+            <li><%= goal_presenter.add_step(goal) unless goal.is_template_based %></li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+    <tr id='step<%=goal.id%>' style="display:none;">
+    </tr>
+    <%= render partial: 'table', object: @scoped_collection = goal.sub_sub_goals, locals: { with_children: false } if with_children %>
+  <% end %>
+<% end %>

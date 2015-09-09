@@ -1,0 +1,65 @@
+<% present @goal do |goal_presenter| %>
+  <div class="content">
+    <div class="container">
+      <div class="goal_details">
+        <div class="title">
+          <%= t('goal_details') %> 
+        </div>
+        <%= render partial: 'goal_details' %> 
+        <div class="steps_substeps">
+          <div class="title">
+            <%= t('steps_and_subs') %>
+          </div>
+          <div class="row">
+            <div class="col-xs-6">
+              <%= render partial: 'batch_button' %>
+            </div>
+            <div class="col-xs-6">
+              <%= goal_presenter.add_step_button(@goal) %>
+              <%= goal_presenter.expand_button %>
+            </div>
+          </div>
+          <div id="step_form" style="display:none;"></div>
+          <% if @expand %>
+            <% @goal.sub_goals.each do |step| %>
+              <%= render partial: 'goal_details', object: @goal = step %>
+              <% step.sub_sub_goals.each do |substep| %>
+                <%= render partial: 'goal_details', object: @goal = substep %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <div class="data_table">
+              <table class="table" id='index_table'>
+                <thead>
+                  <tr>
+                    <th colspan="2"><div class="th_content"></div></th>
+                    <% @table_headers.each do |header_name| %>
+                    <th>
+                      <div class="th_content">
+                        <%= header_name %>
+                        <span class="arrows">
+                          <%= goal_presenter.sortable header_name, "asc" %>
+                          <%= goal_presenter.sortable header_name, "desc" %>
+                        </span>
+                      </div>
+                    </th>
+                    <% end %>
+                    <th><div class="th_content"></div></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= render partial: 'table', object: @scoped_collection, locals: {with_children: true} %>
+                </tbody>
+              </table>
+              <% if @goal.sub_goals.empty? %>
+                <div class="not_found">
+                  <%= t('no_steps') %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

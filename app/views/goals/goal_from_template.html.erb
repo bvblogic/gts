@@ -1,0 +1,103 @@
+<%= form_for @goal, url: :create_from_template_goal do |g| %>
+  <div class="content">
+    <div class="container">
+      <div class="title">
+        <%= t('create_from_template') %>
+      </div>
+      <div class="filters_block editing">
+        <div class="filters_top clearfix">
+          <label class="label_styled minus_btn_width"> 
+            <span class="label_text"><%= t('goal_name') %> </span>
+            <span class="">
+              <%= g.text_field(:name, class: "form-control", disabled: true, placeholder: t('name')) %>
+            </span>
+          </label>
+          <%= g.submit('create', class:'btn btn_primary btn_mt pull-right') %> 
+        </div>
+        <div class="filters_bot_show">
+          <div class="inner clearfix">
+            <div class="left_b">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('categories') %> </span>
+                <span class="">
+                  <%= g.text_area(:description, class: "form-control description_field", disabled: true,  placeholder: t('description')) %>
+                </span>
+              </label>
+            </div>
+            <div class="middle_b">
+              <div class="clearfix upload_img_holder disabled">
+                <div class="upload_block pull-left">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('image_upload') %></span>
+                    <div class="rounded_block">
+                      <div class="cleaning_field">
+                        <input type="text" class="form-control" disabled placeholder="Select image">
+                        <a href="#" class="clean_link"><i class="icon icon_close"></i></a>
+                      </div>
+                      <div class="btn-group clearfix" role="group" aria-label="...">
+                        <a class="btn btn_control btn_file" disabled>
+                          <%= g.file_field(:image, class: 'btn btn_control btn_file', disabled: true ) %>
+                          <%= t('select') %>
+                        </a>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                <div class="<%= @goal.image? ? "upload_img pull-right has_img" : "upload_img pull-right" %>">
+                  <%= image_tag(@goal.image_url) if @goal.image? %>
+                </div>
+              </div>
+              <div class="grid_padding_md">
+                <div class="row">
+                  <div class="col-xs-7">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('categories') %></span>
+                    <%= g.select(:category_ids, Category.all.collect {|x| [x.name, x.id]}, {}, multiple: true, class: 'form-control', disabled: true,  placeholder: t('categories')) %>
+                  </label>
+                </div>
+                <div class="col-xs-5">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('status') %></span>
+                    <span class="custom_select">
+                      <%= g.select(:status, AbstractGoal.status(g.object), { include_blank: false }, { class: 'chosen-select'}) %>
+                    </span>
+                  </label>
+                </div>
+                </div>
+              </div>
+            </div>
+            <div class="right_b grid_padding_sm">
+              <div class="row choose_date">
+                <div class="col-xs-6">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('start_date') %><i class=""></i></span>
+                    <%= g.text_field(:start_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+                  </label>
+                </div>
+                <div class="col-xs-6">
+                  <label class="label_styled"> 
+                    <span class="label_text"><%= t('end_date') %><i class=""></i></span>
+                    <%= g.text_field(:end_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+                  </label>
+                </div>
+              </div>
+              <% if current_user.admin? || current_user.teams.any? %>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <label class="label_styled"> 
+                      <span class="label_text"><%= t('create_as_a_goal_for') %></span>
+                      <span class="custom_select">
+                        <%= g.select(:team_id, @users_teams.collect{|x| [x.name,x.id]}, { include_blank: true }, class: 'chosen-select') %>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+

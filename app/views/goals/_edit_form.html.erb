@@ -1,0 +1,94 @@
+<% present Goal.new do |goal_presenter| %>
+  <div class="filters_top clearfix">
+    <label class="label_styled"> 
+      <span class="label_text"><%= t('goal_name') %> </span>
+      <span class="required_field_holder">
+      <%= g.text_field(:name, class: "form-control", disabled: @goal.is_template_based, placeholder: t('name')) %>
+      </span>
+    </label>
+  </div>
+  <div class="filters_bot_show">
+    <div class="inner clearfix">
+      <div class="left_b">
+        <label class="label_styled"> 
+          <span class="label_text"><%= t('description') %> </span>
+          <span class="required_field_holder">
+            <%= g.text_area(:description, class: "form-control description_field", disabled: @goal.is_template_based, placeholder: t('description')) %>
+          </span>
+        </label>
+      </div>
+      <div class="middle_b">
+        <div class="clearfix upload_img_holder" <%= @goal.is_template_based ? "disabled" : nil %>>
+          <div class="upload_block pull-left">
+            <label class="label_styled"> 
+              <span class="label_text"><%= t('image_upload') %></span>
+              <div class="rounded_block">
+                <div class="cleaning_field">
+                  <input class="form-control" placeholder="Select image" <%= @goal.is_template_based ? "disabled" : nil %> >
+                  <div class="image_checkbox">
+                    <label class="checkbox_label">
+                      <span class="image_checkbox_text">Delete image?</span>
+                      <%= g.check_box(:delete_image)%>
+                        <span class="checkbox_icon_b">
+                            <i class="icon icon_checked"></i>
+                        </span>
+                    </label>
+                  </div>
+                </div>
+                <div class="btn-group clearfix" role="group" aria-label="...">
+                  <a class="btn btn_control btn_file" <%= @goal.is_template_based ? "disabled" : nil %> >
+                    <%= g.file_field(:image, class: 'btn btn_control btn_file', disabled: @goal.is_template_based) %>
+                    <%= t('select') %>
+                  </a>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="<%= @goal.image? ? "upload_img pull-right has_img" : "upload_img pull-right" %>">
+            <%= image_tag(@goal.image_url) if @goal.image? %>
+          </div>
+        </div>
+        <div class="grid_padding_md">
+          <div class="row">
+            <% unless @goal.parent_id || ["SubGoal", "SubSubGoal"].include?(@goal.class.name) %> 
+              <div class="col-xs-7">
+                <label class="label_styled"> 
+                  <span class="label_text"><%= t('categories') %></span>
+                  <%= g.select(:category_ids, Category.all.collect {|x| [x.name, x.id]}, {}, multiple: true, class: 'form-control', disabled: @goal.is_template_based, placeholder: t('categories')) %>
+                </label>
+              </div>
+            <% end %>
+            <% unless @goal.is_template %>
+              <div class="col-xs-5">
+                <label class="label_styled"> 
+                  <span class="label_text"><%= t('status') %> <i class="required_field_holder"></i></span>
+                  <span class="custom_select">
+                    <%= g.select(:status, AbstractGoal.status(g.object), { include_blank: false }, { class: 'chosen-select'}) %>
+                  </span>
+                </label>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% unless @goal.is_template %>
+        <div class="right_b grid_padding_sm">
+          <div class="row choose_date">
+            <div class="col-xs-6">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('start_date') %><i class="required_field_holder"></i></span>
+                <%= g.text_field(:start_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+              </label>
+            </div>
+            <div class="col-xs-6">
+              <label class="label_styled"> 
+                <span class="label_text"><%= t('end_date') %><i class="required_field_holder"></i></span>
+                <%= g.text_field(:end_date, class: 'form-control calendar_in_filters', placeholder: 'yyyy-mm-dd') %>
+              </label>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

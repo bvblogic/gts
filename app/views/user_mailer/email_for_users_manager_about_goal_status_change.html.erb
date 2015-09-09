@@ -1,0 +1,13 @@
+<h1> Hello, <%= @manager.name %> </h1>
+  <div>
+    <br>
+      <% if @goal.status == "closed_succ" %> 
+        <p> We want to inform you that <%= @user.name %>'s goal "<%= @goal.name %>" has been
+        successfully closed! <p>
+      <% else %>
+        <p> We want to inform you that <%= @user.name %>'s goal's "<%= @goal.name %>" status 
+          was changed from <%= @old_status.humanize %> to <%= @goal.status.humanize %> </p>
+      <% end %>
+      <br>
+      <p> With regards, GTS team </p>
+  </div>

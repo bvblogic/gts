@@ -1,0 +1,33 @@
+$("#step_form").html("<%= j (render partial: 'add_step_form', locals: { parent_id: @parent_id }) %>");
+$('#step_form').slideDown(350);
+
+$(".chosen-select", $("#step_form")).chosen({
+  disable_search: true,
+  width: '100%'
+})
+
+$("#collapse_step").click(function(event){
+  event.preventDefault();
+  $('#step_form').slideUp(350);
+})
+
+$("#goal_image").on('change', function() {
+  if ($("#goal_image").val() == "") {
+      return;
+  }
+  var fileInputContent = $("#goal_image").val().split("\\").pop();
+
+  $(this).parents(".rounded_block").find('.form-control').attr('placeholder', fileInputContent);
+})
+
+if ($('.calendar, .calendar_in_filters').length) {
+  $('.calendar').datepicker({
+    format: 'yyyy-mm-dd'
+  });
+  $('.calendar_in_filters').datepicker({
+    format: 'yyyy-mm-dd',
+  });
+}
+
+
+
